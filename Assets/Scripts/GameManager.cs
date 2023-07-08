@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,11 +16,14 @@ public class GameManager : MonoBehaviour
     public Vector3 WallPos;
     public Ball[] Balls;
 
+    public Text CollisionText;
+
     public static float PEnergy;
 
     private void Awake() 
     {
         Instance = this;    
+        
     }
 
     void Start()
@@ -31,5 +35,10 @@ public class GameManager : MonoBehaviour
 
         //에너지 보존 법칙
         PEnergy = Mass1 * Velocity1 + Mass2 * Velocity2;
+    }
+
+    public void UpdateText(int count)
+    {
+        CollisionText.text = $"충돌횟수: {count}";
     }
 }

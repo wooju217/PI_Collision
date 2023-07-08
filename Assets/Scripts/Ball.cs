@@ -6,8 +6,9 @@ public class Ball : MonoBehaviour
 {
     public float Velocity = 1;
     public float Mass = 1;
-    public int Dir = -1;
     public bool IsBigMass;
+
+    public int Count;
 
     public Ball OtherBall;
 
@@ -23,35 +24,51 @@ public class Ball : MonoBehaviour
     {
         Mass = mass;
         Velocity = velocity;
-        Dir = -1;
+
     }
 
-    private void Update() 
+    float lastTime;
+
+    private void FixedUpdate() 
     {
         if(Time.timeScale == 0)
             return;
 
-        transform.position = new Vector3(Velocity/Mass * Dir * Time.deltaTime, 0, 0) + transform.position;
-        lastPos = transform.position.x;
+        transform.position += new Vector3(Velocity * Time.deltaTime, 0, 0);
+
+
 
         float d = Vector3.Distance(transform.position, OtherBall.transform.position);
         float d_wall = Vector3.Distance(transform.position, GameManager.Instance.WallPos);
         if(CheckCollision && !hit)
         {
             bool flag = false;
-            if(d <= CollisionDistance)
+            if(d < CollisionDistance)
             {
-                Dir *= -1;
-                Velocity = GetVelocity(Mass, OtherBall.Mass, OtherBall.Velocity);
-                Debug.Log(Mass + "/" + OtherBall.Mass +"/" + OtherBall.Velocity);
-                //OtherBall.Velocity = GetVelocity(OtherBall.Mass, Mass, OtherBall.Velocity);
+                Count++;
+
+                Velocity *= -1;
+                float va0 = Velocity * -1;
+                Velocity = ((OtherBall.Mass * (va0 - 2*OtherBall.Velocity)-Mass*va0)/(-(Mass + OtherBall.Mass)));
+                //Velocity = GetVelocity(OtherBall);
+                //Debug.Log(Mass + "/" + OtherBall.Mass +"/" + OtherBall.Velocity);
+                OtherBall.Velocity =  (Velocity + va0 - OtherBall.Velocity); //(va0 - OtherBall.Velocity + Velocity);
                 flag = true;
+                print(OtherBall.Velocity);
+                //print(Count + $" | 작은거 속도: {Velocity}, 큰거 속도: {OtherBall.Velocity} | 시간차 {time}");
+
+                
+                //Time.timeScale = 0 ;
             }
-            else if(d_wall <= 0.5f+0.1f/2f)
+            if(d_wall <= 0.5f+0.1f)
             {
-                Dir *= -1;
+                Count++;
+                Velocity *= -1;
                 flag = true;
+                transform.position = new Vector3(-12+0.75f, -5.45f, 0);
             }
+
+            GameManager.Instance.UpdateText(Count);
 
             hit = flag;
         }
@@ -63,8 +80,11 @@ public class Ball : MonoBehaviour
 
     
 
-    public float GetVelocity(float thisMass, float otherMass, float otherVelocity)
+    public float GetVelocity(Ball otherBall)
     {
-        return (GameManager.PEnergy - (otherMass * otherVelocity))/thisMass;
+        return (otherBall.Mass * (Velocity - 2 * otherBall.Velocity) - Mass*Velocity)
+        /-(Mass + otherBall.Mass);
     }
+
+    
 }

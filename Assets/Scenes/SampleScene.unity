@@ -443,12 +443,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Mass1: 1
   Velocity1: 1
-  Mass2: 100
+  Mass2: 10000
   Velocity2: 1
   WallPos: {x: -12, y: -5.45, z: 0}
   Balls:
   - {fileID: 1269859177}
   - {fileID: 1309125083}
+  CollisionText: {fileID: 671530386}
 --- !u!1 &422928167
 GameObject:
   m_ObjectHideFlags: 0
@@ -876,7 +877,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &864241683
 RectTransform:
   m_ObjectHideFlags: 0
@@ -916,7 +917,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &926498702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1179,7 +1180,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1062878606
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1535,8 +1536,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Velocity: 0
   Mass: 1
-  Dir: -1
   IsBigMass: 0
+  Count: 0
   OtherBall: {fileID: 1309125083}
   CollisionDistance: 1.25
   CheckCollision: 1
@@ -1833,10 +1834,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac9983deb4da304297380ab5633f61e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Velocity: 100
+  Velocity: -1
   Mass: 100
-  Dir: -1
   IsBigMass: 1
+  Count: 0
   OtherBall: {fileID: 1269859177}
   CollisionDistance: 1
   CheckCollision: 0
